@@ -1,0 +1,53 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+.mainpage{
+    display: grid;
+
+}
+.down {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80vh;
+
+}
+.messages{
+    position: absolute;
+    margin-top: 5px;
+    border: 2px solid #555;
+    border-right: none;
+    background-color: burlywood;
+    overflow-x: auto;
+    overflow-y: scroll ;
+    height: 76vh;
+    width:80vh;
+    
+
+}
+.inputarea{
+    position: fixed;
+    width: 80vh;
+    bottom: 15px;
+    margin-top: 0;
+    
+    
+
+}
+#text{
+    height: 4em;
+    width: 80vh;
+
+}
+#sub {
+    background-color: #4CAF50;
+    border: 2px solid #555;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin-left: -80px;
+    height: 4em;
+    width: 80px;
+}
