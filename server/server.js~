@@ -1,19 +1,6 @@
 const app = require('express')();
-//const server = require('http').Server(app);
-const bodyParser = require('body-parser');
-const https = require('https');
-const fs = require('fs');
-const cors = require('cors')
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-var server = https.createServer({
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem'),
-    requestCert: false,
-    rejectUnauthorized: false
-}, app);
-const io = require('socket.io')(server, { origins: '*:*' });
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 var clients = 0;
 io.on('connection', socket => {
     clients++;
