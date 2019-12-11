@@ -1,53 +1,50 @@
-html{
-    height: 100%;
-    width: 100%;
+*{
+    margin: 0;
+    padding: 0
 }
 .mainpage{
-    display: grid;
-
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#isTyping {
+    height: 20px;
 }
 .down {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80vh;
-
+    width: 60%;
+    margin: 0 auto;
 }
-.messages{
-    position: absolute;
-    margin-top: 5px;
+#messages{
+    height: 60vh;
     border: 2px solid #555;
     border-right: none;
-    background-color: burlywood;
+    background-color: #1abc9c;
     overflow-x: auto;
-    overflow-y: scroll ;
-    height: 76vh;
-    width:80vh;
-    
-
+    overflow-y: scroll;
 }
 .inputarea{
-    position: fixed;
-    width: 80vh;
+    width: 100%;
     bottom: 15px;
     margin-top: 0;
-    
-    
-
 }
 #text{
+    width: 90%;
     height: 4em;
-    width: 80vh;
-
 }
-#sub {
+#send {
+    width: 10%;
     background-color: #4CAF50;
     border: 2px solid #555;
+    border-left: none;
     color: white;
+    height: 4em;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    margin-left: -80px;
-    height: 4em;
-    width: 80px;
+}
+@media (max-width: 450px) { 
+    .down{
+        width: 99%;
+    }
 }

@@ -1,29 +1,56 @@
-import React, {useState} from 'react'
+import React, {
+    useState
+} from 'react'
 import './ChatPage.css'
 
-function ChatPage(){
-    const [text='', setText] = useState();
+function ChatPage(props) {
 
-  
-    const sendMessage = ev => {
-        var ms = document.getElementById('text').value;
-        document.getElementById('text').value='';
-        setText(text+ms);
-        ev.preventDefault();
+    const [message, setMessage] = useState();
+    const [prop] = useState(props);
+
+    const appendMessage = (messagek) => {
+        const messageElement = document.createElement('div')
+        messageElement.innerText = messagek.name + " :: " + messagek.text;
+        const iva = document.getElementById("messages");
+        iva.append(messageElement)
+        iva.scrollTop = iva.scrollHeight
     }
+    const handleChange = () => {
+        setMessage(document.getElementById('text').value)
+        console.log('happening');
+        prop.socket.emit('typing', prop.logindata.name + " is typing..");
+        clearTimeout(timeout);
+        timeout = setTimeout(timeoutFunction, 2000);
+    }
+    var timeout;
+
+    function timeoutFunction() {
+        prop.socket.emit("typing", false);
+    }
+
+    const sendMessage = ev => {
+        ev.preventDefault();
+        document.getElementById('text').value = '';
+        console.log("eti mes")
+        appendMessage({ name: "You", text: message })
+        prop.socket.emit('message', { name: prop.logindata.name, text: message });
+
+    }
+
     return (
-        <div className="mainpage">
-            <header className="App-header">
+        <div className="mainpage" >
+            <div className="App-header">
                 Chatit!
-            </header>
-            <div className="down">
-                <div className="messages">
-                    {text}
-                </div>
-                <div className='inputarea'>
-                    <form onSubmit={sendMessage}> 
-                        <input id="text" placeholder='enter message here' type='text'/>
-                        <input id="sub"  type='button' value="enter" onClick={sendMessage}  />
+
+            </div>
+            <div className="down" >
+                <div id="messages" ></div>
+
+                <div className='inputarea' >
+                    <div id="isTyping"></div>
+                    <form onSubmit={sendMessage}>
+                        <input id="text" placeholder='enter message here' type='text' autoComplete="off" onChange={handleChange} />
+                        <input id="send" type='button' value="send" onClick={sendMessage} />
 
                     </form>
 
@@ -35,4 +62,4 @@ function ChatPage(){
 
     );
 }
-export default  ChatPage;
+export default ChatPage;
