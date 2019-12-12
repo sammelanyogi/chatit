@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
-const socket = require('socket.io-client').connect('https://makeit.fail:4000', { secure: true });
+const socket = require('socket.io-client').connect('https://makeit.fail:4000');
 
 const appendMessage = (message) => {
     const messageElement = document.createElement('div')
