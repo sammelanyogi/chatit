@@ -20,7 +20,7 @@ input[type=text]:focus {
 
 .App-header {
   background-color: #282c34;
-  min-height: 15vh;
+  min-height: 10vh;
   width: 100vw;
   display: flex;
   flex-direction: column;

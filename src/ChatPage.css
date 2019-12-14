@@ -19,9 +19,14 @@
     height: 60vh;
     border: 2px solid #555;
     border-right: none;
-    background-color: #1abc9c;
+    background-color: #222222;
     overflow-x: auto;
     overflow-y: scroll;
+}
+#msgalert{
+    color: red;
+    justify-content: flex-end;
+    display: none;
 }
 .inputarea{
     width: 100%;

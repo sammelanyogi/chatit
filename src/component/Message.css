@@ -1,0 +1,44 @@
+.allmsg{
+    margin: 4px 2px;
+   
+}
+
+.message {
+    font-size: 16px;
+    line-height: 28px;
+    display: flex;
+}
+#mine {
+    justify-content: flex-end;
+}
+#his {
+    justify-content: flex-start;
+}
+.message #names {
+    width: 10%;
+    padding: 0 4px;
+}
+#othersmessage {
+    color: gold;
+}
+#mymessage {
+    color: white;
+}
+#othersmessage #texts {
+    flex-direction: right;
+    border: solid 1px gold;
+    border-radius: 4px;
+    padding: 3px 10px;
+    
+}
+#new_user{
+    padding: 5px 0;
+    color: red;
+    justify-content: center;
+}
+#mymessage #texts {
+    border: solid 1px white;
+    border-radius: 4px;
+    padding: 3px 10px;
+   
+}

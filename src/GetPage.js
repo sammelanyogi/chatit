@@ -55,7 +55,7 @@ function GetPage(props) {
           </label>
         </div>
 
-        <Link to={'/' + room} > < input className="button" type="submit" value="Go." onClick={() => handleSubmit()} /></Link >
+        <Link to={'/chatit/' + room} > < input className="button" type="submit" value="Go." onClick={() => handleSubmit()} /></Link >
 
       </form>
 

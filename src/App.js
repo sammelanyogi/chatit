@@ -9,24 +9,21 @@ import {
 import GetPage from './GetPage'
 import ChatPage from './ChatPage'
 
-
 function App(props) {
 
   const [username, setUsername] = useState();
   const [room, setRoom] = useState();
   const [prop] = useState(props);
-
   const getCredentials = (logindata) => {
     setUsername(logindata.username);
     setRoom(logindata.room);
   }
-
   return (
     <Switch>
-      <Route path={'/' + room} >
+      <Route path={'/chatit/' + room} >
         <ChatPage logindata={{ name: username, room }} socket={prop.socket} typers={prop.typers} />
       </Route>
-      <Route path="/" >
+      <Route path="/chatit/" >
         <GetPage callback={getCredentials} />
       </Route>
 
