@@ -3,7 +3,7 @@ import React, {
 } from 'react'
 import './ChatPage.css'
 import Message from './component/Message'
-const socket = require('socket.io-client').connect('http://sammelanyogi.com.np:4000');
+const socket = require('socket.io-client').connect('https://sammelanyogi.com.np:4000');
 
 
 const ChatPage = (props) => {
