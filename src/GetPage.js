@@ -14,11 +14,13 @@ function GetPage(props) {
 
 
   function handleSubmit() {
-    if (/\S/.test(username)) {
-      prop.callback({ username, room })
+    if (/\S/.test(username) && /\S/.test(room)) {
+      if (username.indexOf(" ") === -1 && room.indexOf(" ") === -1) {
+        prop.callback({ username, room })
+      } else document.getElementById("error").innerHTML = "username or room cannot contain space."
     }
     else {
-      document.getElementById("error").innerHTML = "Please set a username."
+      document.getElementById("error").innerHTML = "Please set a username and chatroom"
     }
 
   }

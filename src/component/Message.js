@@ -3,7 +3,7 @@ import './Message.css'
 export default function Message(props) {
     const [prop] = useState(props)
     if (prop.data.new_user) {
-        return (<div className="message" id="new_user">{prop.data.name} connected the chat</div>)
+        return (<div className="message" id="new_user">{prop.data.name} {prop.data.text}</div>)
     }
     else
         if (prop.data.mine) {

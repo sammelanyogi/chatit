@@ -1,24 +1,28 @@
 import React, {
-    useState, useEffect
+    useState, useEffect, useRef
 } from 'react'
 import './ChatPage.css'
 import Message from './component/Message'
-const socket = require('socket.io-client').connect('https://sammelanyogi.com.np:4000');
+const socket = require('socket.io-client').connect('https://server.makeit.fail:4000');
+// const socket = require('socket.io-client').connect('http://192.168.1.79:4000');
+
 
 
 const ChatPage = (props) => {
+    const messagesEndRef = useRef(null)
     const [pin, setPin] = useState();
     const [message, setMessage] = useState();
     const [prop] = useState(props);
     const [msglist, setMsglist] = useState([]);
     useEffect(() => {
-        document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }, [msglist])
     useEffect(() => {
-        socket.emit("new-user", prop.logindata.name);
+        socket.emit("new-user", prop.logindata);
     }, [prop])
     useEffect(() => {
         socket.on('new-user', new_user)
+        socket.on('disconnected', bye_user)
         socket.on('new-message', new_message);
         socket.on('typing', function (data) {
             if (document.getElementById("messages")) {
@@ -33,7 +37,10 @@ const ChatPage = (props) => {
         };
     }, []);
     function new_user(data) {
-        setMsglist(msglist => [...msglist, { new_user: true, name: data }])
+        setMsglist(msglist => [...msglist, { new_user: true, name: data, text: " connected the chat" }])
+    }
+    function bye_user(data) {
+        setMsglist(msglist => [...msglist, { new_user: true, name: data, text: " disconnected." }])
     }
     function new_message(obj) {
         setMsglist(msglist => [...msglist, obj])
@@ -42,9 +49,9 @@ const ChatPage = (props) => {
     const handleChange = () => {
         setMessage(document.getElementById('text').value)
         console.log('happening');
-        socket.emit('typing', prop.logindata.name + " is typing..");
+        socket.emit('typing', { text: prop.logindata.name + " is typing..", room: prop.logindata.room });
         clearTimeout(timeout);
-        timeout = setTimeout(() => { socket.emit("typing", false) }, 2000);
+        timeout = setTimeout(() => { socket.emit("typing", { text: false, room: prop.logindata.room }) }, 2000);
     }
     const switchPin = () => {
         if (pin) setPin(false)
@@ -55,7 +62,7 @@ const ChatPage = (props) => {
         document.getElementById('text').value = '';
         new_message({ mine: true, name: "me", text: message })
         switchPin();
-        socket.emit('message', { mine: false, name: prop.logindata.name, text: message });
+        socket.emit('message', { mine: false, name: prop.logindata.name, room: prop.logindata.room, text: message });
 
     }
 
@@ -69,7 +76,7 @@ const ChatPage = (props) => {
                     {msglist.map((item, i) => {
                         return <Message data={item} key={i} />
                     })}
-                    <div id="msgalert">new message</div>
+                    <div ref={messagesEndRef}></div>
                 </div>
                 <div className='inputarea' >
                     <div id="isTyping"></div>

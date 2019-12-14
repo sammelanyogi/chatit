@@ -19,20 +19,22 @@ io.on('connection', socket => {
     clients++;
     console.log(clients + " user connected")
     socket.on('new-user', name => {
-        socket.broadcast.emit('new-user', name)
+        socket.username = name.name;
+        socket.room = name.room
+        socket.join(name.room)
+        socket.broadcast.to(name.room).emit('new-user', name.name);
     })
     socket.on('message', messages => {
-        console.log("going to broadcast now")
-        console.log(socket.id)
-        socket.broadcast.emit('new-message', messages)
+        console.log("going to broadcast to room: " + messages.room)
+        socket.broadcast.to(messages.room).emit('new-message', messages)
     });
     socket.on('typing', name => {
-        socket.broadcast.emit('typing', name)
+        socket.broadcast.to(name.room).emit('typing', name.text)
     })
     socket.on('disconnect', () => {
         clients--;
-        console.log("disconnected")
         console.log(clients + " user connected")
+        socket.broadcast.to(socket.room).emit('disconnected', socket.username)
     })
 
 })
@@ -42,4 +44,7 @@ io.on('connection', socket => {
 server.listen(4000, function (error) {
     if (error) throw error
     console.log("listening on 4000")
+})
+app.get('/', function (req, res) {
+    res.send('GET request to the homepage')
 })

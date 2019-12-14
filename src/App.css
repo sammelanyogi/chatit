@@ -17,7 +17,9 @@ input[type=text] {
 input[type=text]:focus {
   border: 3px solid #555;
 }
-
+#error {
+  color: red;
+}
 .App-header {
   background-color: #282c34;
   min-height: 10vh;
