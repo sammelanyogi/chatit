@@ -53,7 +53,7 @@ function GetPage(props) {
   return (
     <div className="App" >
       <header className="App-header" >
-        Chatit!
+        <a href="https://makeit.fail/chatit">Chatit!</a>
       </header>
 
 

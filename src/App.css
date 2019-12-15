@@ -3,6 +3,10 @@
   justify-content: center;
   display: grid;
 }
+a {
+  text-decoration: none;
+  color: white;
+}
 
 input[type=text] {
   width: 50%;

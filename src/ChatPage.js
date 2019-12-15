@@ -76,7 +76,7 @@ const ChatPage = (props) => {
     return (
         <div className="mainpage" >
             <div className="App-header">
-                Chatit!
+                <a href="https://makeit.fail/chatit">Chatit!</a>
             </div>
             <div className="down" >
                 <div id="messages" >
