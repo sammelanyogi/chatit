@@ -3,8 +3,6 @@ import React, {
 } from 'react'
 import './ChatPage.css'
 import Message from './component/Message'
-const socket = require('socket.io-client').connect('https://server.makeit.fail:4000');
-// const socket = require('socket.io-client').connect('http://192.168.1.79:4000');
 
 
 
@@ -18,13 +16,14 @@ const ChatPage = (props) => {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }, [msglist])
     useEffect(() => {
-        socket.emit("new-user", prop.logindata);
+        prop.socket.emit("new-user", prop.logindata);
     }, [prop])
     useEffect(() => {
-        socket.on('new-user', new_user)
-        socket.on('disconnected', bye_user)
-        socket.on('new-message', new_message);
-        socket.on('typing', function (data) {
+        prop.socket.on('datas', pre_data)
+        prop.socket.on('new-user', new_user)
+        prop.socket.on('disconnected', bye_user)
+        prop.socket.on('new-message', new_message);
+        prop.socket.on('typing', function (data) {
             if (document.getElementById("messages")) {
                 if (data) document.getElementById('isTyping').innerHTML = data;
                 else document.getElementById("isTyping").innerHTML = "";
@@ -32,10 +31,18 @@ const ChatPage = (props) => {
 
         });
         return () => {
-            socket.off('message');
-            socket.off('typing')
+            prop.socket.off('datas', pre_data)
+            prop.socket.off('message');
+            prop.socket.off('typing');
+            prop.socket.off('new-user')
+            prop.socket.off('disconnected')
         };
-    }, []);
+    }, [prop]);
+    function pre_data(datas, name) {
+        var newarray = []
+        datas.forEach(x => { if (x !== name) { newarray.push({ new_user: true, name: x, text: "is in the room" }) } })
+        setMsglist(msglist => msglist.concat(newarray))
+    }
     function new_user(data) {
         setMsglist(msglist => [...msglist, { new_user: true, name: data, text: " connected the chat" }])
     }
@@ -49,9 +56,9 @@ const ChatPage = (props) => {
     const handleChange = () => {
         setMessage(document.getElementById('text').value)
         console.log('happening');
-        socket.emit('typing', { text: prop.logindata.name + " is typing..", room: prop.logindata.room });
+        prop.socket.emit('typing', { text: prop.logindata.name + " is typing..", room: prop.logindata.room });
         clearTimeout(timeout);
-        timeout = setTimeout(() => { socket.emit("typing", { text: false, room: prop.logindata.room }) }, 2000);
+        timeout = setTimeout(() => { prop.socket.emit("typing", { text: false, room: prop.logindata.room }) }, 2000);
     }
     const switchPin = () => {
         if (pin) setPin(false)
@@ -62,7 +69,7 @@ const ChatPage = (props) => {
         document.getElementById('text').value = '';
         new_message({ mine: true, name: "me", text: message })
         switchPin();
-        socket.emit('message', { mine: false, name: prop.logindata.name, room: prop.logindata.room, text: message });
+        prop.socket.emit('message', { mine: false, name: prop.logindata.name, room: prop.logindata.room, text: message });
 
     }
 

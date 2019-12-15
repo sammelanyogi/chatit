@@ -1,11 +1,12 @@
 import React, {
-  useState
+  useState, useEffect
 } from 'react'
 import {
   Link
 } from 'react-router-dom';
 
 import './App.css';
+
 
 function GetPage(props) {
   const [username, setUsername] = useState('');
@@ -14,9 +15,11 @@ function GetPage(props) {
 
 
   function handleSubmit() {
+    console.log(room + " " + username)
     if (/\S/.test(username) && /\S/.test(room)) {
       if (username.indexOf(" ") === -1 && room.indexOf(" ") === -1) {
-        prop.callback({ username, room })
+        prop.socket.emit('validation', { username, room })
+
       } else document.getElementById("error").innerHTML = "username or room cannot contain space."
     }
     else {
@@ -24,15 +27,28 @@ function GetPage(props) {
     }
 
   }
+  useEffect(() => {
+    prop.socket.on('validation', data => {
+      if (data) {
+        prop.callback({ username, room })
+      }
+      else {
+        document.getElementById("error").innerHTML = "username " + username + " already there in room " + room
+      }
+    })
+    return () => {
+      prop.socket.off('validation')
+    };
+  }, [username, room, prop]);
 
   function handleUser() {
     var nami = document.getElementById('uname').value;
-    setUsername(nami);
+    setUsername(nami.toLowerCase());
   }
 
   function handleRoom() {
     var roomi = document.getElementById('room').value;
-    setRoom(roomi);
+    setRoom(roomi.toLowerCase());
   }
   return (
     <div className="App" >

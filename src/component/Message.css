@@ -17,6 +17,7 @@
 .message #names {
     width: 10%;
     padding: 0 4px;
+    overflow: hidden;
 }
 #othersmessage {
     color: gold;
@@ -33,7 +34,7 @@
 }
 #new_user{
     padding: 5px 0;
-    color: red;
+    color: green;
     justify-content: center;
 }
 #mymessage #texts {

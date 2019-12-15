@@ -8,6 +8,9 @@ import {
 
 import GetPage from './GetPage'
 import ChatPage from './ChatPage'
+// const socket = require('socket.io-client').connect('http://192.168.1.79:4000');
+const socket = require('socket.io-client').connect('https://server.makeit.fail:4000');
+
 
 function App(props) {
 
@@ -21,10 +24,10 @@ function App(props) {
   return (
     <Switch>
       <Route path={'/chatit/' + room} >
-        <ChatPage logindata={{ name: username, room }} socket={prop.socket} typers={prop.typers} />
+        <ChatPage logindata={{ name: username, room }} socket={socket} typers={prop.typers} />
       </Route>
       <Route path="/chatit/" >
-        <GetPage callback={getCredentials} />
+        <GetPage callback={getCredentials} socket={socket} />
       </Route>
 
     </Switch>
